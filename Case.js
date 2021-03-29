@@ -1,6 +1,8 @@
 class Case {
     color = '#696969';
     tailleCase = "50px";
+    carre = document.createElement('div');
+    visited = false;
     constructor(objet, taille) {
         this.posX = objet.posX;
         this.posY = objet.posY;
@@ -11,28 +13,30 @@ class Case {
         this.taille = taille
     }
     createCase() {
-        let carre = document.createElement('div');
-        carre.style.width = '50px';
-        carre.style.height = '50px';
-        carre.style.backgroundColor = '#DCDCDC'
+        this.carre.style.width = this.tailleCase;
+        this.carre.style.height = this.tailleCase;
+        this.carre.style.backgroundColor = '#DCDCDC'
         if (this.wallUp) {
-            carre.style.borderTop = 'solid 2px' + this.color
+            this.carre.style.borderTop = 'solid 2px' + this.color
         }
         if (this.wallRight) {
-            carre.style.borderRight = 'solid 2px' + this.color
+            this.carre.style.borderRight = 'solid 2px' + this.color
         }
         if (this.wallDown) {
-            carre.style.borderBottom = 'solid 2px' + this.color
+            this.carre.style.borderBottom = 'solid 2px' + this.color
         }
         if (this.wallLeft) {
-            carre.style.borderLeft = 'solid 2px' + this.color
+            this.carre.style.borderLeft = 'solid 2px' + this.color
         }
         if (this.posX === 0 && this.posY === 0) {
-            carre.style.backgroundColor = '#F5F5DC'
+            this.carre.style.backgroundColor = '#F5F5DC'
         }
         if (this.posX === (this.taille - 1) && this.posY === (this.taille - 1)) {
-            carre.style.backgroundColor = '	#FFE4E1'
+            this.carre.style.backgroundColor = '#EDBB99'
         }
-        return carre
+        return this.carre
+    }
+    setbackgroundColor(couleur){
+        this.carre.style.backgroundColor = couleur;
     }
 }

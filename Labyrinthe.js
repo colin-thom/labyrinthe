@@ -1,5 +1,6 @@
 class Labyrinthe {
 
+    tab = [];
     constructor(data, taille, exemple) {
         this.exemple = data[taille.toString()]['ex-' + exemple.toString()];
         this.taille = taille;
@@ -15,8 +16,13 @@ class Labyrinthe {
 
         for (let elem of this.exemple) {
             let carre = new Case(elem, this.taille);
+
+            if(this.tab[carre.posX] == undefined){
+                this.tab.push([])
+            }
+            this.tab[carre.posX].push(carre)
+
             board.append(carre.createCase());
-            console.log(carre)
         }
         document.querySelector('body').append(board);
     }
