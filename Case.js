@@ -39,4 +39,7 @@ class Case {
     setbackgroundColor(couleur){
         this.carre.style.backgroundColor = couleur;
     }
+    setVisitedTrue(){
+        this.visited = true;
+    }
 }
