@@ -1,51 +1,71 @@
-longueur = 11;
-const laby = new Labyrinthe(data, longueur, 1);
-laby.createLab();
-console.log(laby.tab);
-let x = 0;
-let y = 0;
-let position = laby.tab[x][y];
-console.log(position);
-const chemin = [];
+for (i = 3; i <= 25; i++) {
+    let option = document.createElement("option");
+    option.setAttribute('value', i);
+    option.textContent = i;
+    document.getElementById("select-taille").append(option);
+}
+for (i = 0; i <= 2; i++) {
+    let option = document.createElement("option");
+    option.setAttribute('value', i);
+    option.textContent = i;
+    document.getElementById("select-exemple").append(option);
+}
+let goodWay = [];
+let laby;
+let position;
 
-document.getElementById("avancer").addEventListener("click", () => resolveLab(position));
+document.getElementById("createLab").addEventListener("click", () => {
+    if (document.getElementById("board")) {
+        document.getElementById("board").remove();
+    }
+    let longueur = document.getElementById("select-taille").value;
+    let exemple = document.getElementById("select-exemple").value;
+    laby = new Labyrinthe(data, longueur, exemple);
+    laby.createLab();
+    position = laby.tab[0][0];
+    goodWay = [];
+});
+document.getElementById("avancer").addEventListener("click", () => position = resolveLab(position));
 
-function resolveLab(pos) {
-    let tempX = laby.moveX(pos, x, y);
-    let tempY = laby.moveY(pos, x, y);
-    if (laby.isCulDeSac(x, y) || laby.isVisited(x, y)) {
-        y = tempY
-        if (y == position.posY) {
-            x = tempX
+function resolveLab(position) {
+    position.checkNeighburs(laby.tab);
+    if (!position.start) {
+        for (let neighbur of position.neighburs) {
+            if (neighbur.visited) {
+                position.parent = neighbur;
+            }
         }
+    }
+    position.setVisitedTrue();
+
+    if (position.end) {
+        position.setbackgroundColor('#EDBB99');
+        goodWay.unshift(position);
+        remonter(position);
+        console.log(goodWay)
+        for (let i = 0; i < goodWay.length; i++) {
+            setTimeout(() => {
+                goodWay[i].setbackgroundColor('#CD5C5C')
+            }, 50 * i)
+        }
+
+        // a partir d'ici on remonte dans l'autre sens et on stocke le bon chemin dans un tableau   
     } else {
-        x = tempX
-        if (x == position.posX) {
-            y = tempY
+        for (let neighbur of position.neighburs) {
+            if (!neighbur.visited) {
+                position = laby.tab[neighbur.posX][neighbur.posY]
+                resolveLab(position);
+            }
         }
     }
-
-
-    // donner a position sa nouvelle valeur
-    position = laby.tab[x][y];
-
-    if (x == longueur - 1 && y == longueur - 1) {
-        window.alert('et voila !')
-    }
-    console.log(position);
+    return position
 }
 
-// l'algo ne fonctionne pas quand les embranchements son trop complexes
-// la prochaine étape consiste a regarde s'il y a un embranchement
-// si c'est le cas, on sauvegarde la position et on continue normalement
-// si le chemin aboutis a un cul de sac, on reviens a la position sauvegardée
-// et on met en rouge le chemin précédemment parcourru
+function remonter(position) {
+    if (position.parent !== undefined) {
+        goodWay.unshift(position.parent)
+        remonter(position.parent)
+    }
 
-// pour ça il faudra a chaque fois stocker la case que l'on parcourt dans un tableau
-// lors d'un embranchement on stocke le parcours dans un autre tableau.
-// si tout va bien on fusionne ce tableau au principal
-// si ça va pas on met tout en rouge et on reprend a la derniere donnée
-// du tableau principal et on part ailleurs (en utilisant une fonction de déplacement
-// qui prend en compte la couleur rouge d'une case)
-
+}
 

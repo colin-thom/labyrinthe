@@ -14,11 +14,20 @@
         #board {
             display: flex;
             flex-wrap: wrap;
+            box-sizing: content-box;
         }
     </style>
 </head>
 
 <body>
+
+    <label for="select-taille">taille du tableau</label>
+    <select id="select-taille"></select>
+
+    <label for="select-exemple">labyrinthe</label>
+    <select id="select-exemple"></select>
+
+    <button id="createLab" type="button">créer le labyrinthe</button>
     <button id="avancer" type="button">avancer</button>
     <script src="Case.js"></script>
     <script src="Labyrinthe.js"></script>
