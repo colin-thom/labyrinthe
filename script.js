@@ -4,9 +4,9 @@ for (i = 3; i <= 25; i++) {
     option.textContent = i;
     document.getElementById("select-taille").append(option);
 }
-for (i = 0; i <= 2; i++) {
+for (i = 1; i <= 3; i++) {
     let option = document.createElement("option");
-    option.setAttribute('value', i);
+    option.setAttribute('value', i - 1);
     option.textContent = i;
     document.getElementById("select-exemple").append(option);
 }
@@ -23,6 +23,7 @@ document.getElementById("createLab").addEventListener("click", () => {
     laby = new Labyrinthe(data, longueur, exemple);
     laby.createLab();
     position = laby.tab[0][0];
+    console.log(laby.tab)
     goodWay = [];
 });
 document.getElementById("avancer").addEventListener("click", () => position = resolveLab(position));
@@ -48,8 +49,6 @@ function resolveLab(position) {
                 goodWay[i].setbackgroundColor('#CD5C5C')
             }, 50 * i)
         }
-
-        // a partir d'ici on remonte dans l'autre sens et on stocke le bon chemin dans un tableau   
     } else {
         for (let neighbur of position.neighburs) {
             if (!neighbur.visited) {

@@ -7,6 +7,7 @@ class Case {
     constructor(objet, taille) {
         this.posX = objet.posX;
         this.posY = objet.posY;
+        this.walls = objet.walls;
         this.wallUp = objet.walls[0];
         this.wallRight = objet.walls[1];
         this.wallDown = objet.walls[2];
@@ -33,6 +34,12 @@ class Case {
         this.carre.style.width = this.tailleCase;
         this.carre.style.height = this.tailleCase;
         this.carre.style.backgroundColor = '#DCDCDC'
+        // this.carre.style.border = "solid " + this.color;
+        // let w = [this.wallUp, false, true, true];
+        // let border_width = this.walls.map(elt => elt ? "2px" : "0x").join(" ");
+        // this.carre.style.borderWidth = border_width;
+
+
         if (this.wallUp) {
             this.carre.style.borderTop = 'solid 2px' + this.color
         }
@@ -53,11 +60,6 @@ class Case {
     setVisitedTrue() {
         this.visited = true;
         this.carre.style.backgroundColor = '#FFDAB9'
-    }
-    isCulDeSac() {
-        if (this.neighburs.length === 1 && !this.start && !this.end) {
-            return true
-        }
     }
 }
 
